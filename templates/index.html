@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>어도 원격제어 시스템</title>
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    <script src="/static/js/socket.js"></script>
+</head>
+
+<body>
+    <h1>실시간 가동보 모니터링</h1>
+    <img src="/video_feed" width="1600" height="900">
+    <h2>PLC Control</h2>
+    <button onclick="sendCommand('left')">LEFT</button>
+    <button onclick="sendCommand('right')">RIGHT</button>
+</body>
+
+</html>
