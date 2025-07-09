@@ -1,4 +1,4 @@
-##파일 구조
+## 파일 구조
 ```
 project_root/
 ├── app.py                      # Flask 서버 실행 메인 파일
