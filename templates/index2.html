@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>어도 원격제어 모니터링 시스템</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <!-- 좌측 시스템 정보 패널 -->
+    <div class="left-panel">
+      <div class="panel-title">시스템 모니터링</div>
+
+      <!-- 수위상태 게이지 -->
+      <div class="system-info">
+        <div class="info-section">
+          <div class="info-title">수위상태</div>
+          <div class="gauge-container">
+            <div class="gauge">
+              <div class="gauge-fill"></div>
+              <div class="gauge-needle" id="water-level-needle"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 유압상태 -->
+      <div class="system-info">
+        <div class="info-section">
+          <div class="info-title">유압상태</div>
+          <div class="status-item">
+            <div class="status-icon" style="background-color: #FFC107;"></div>
+            <span>상승 밸브</span>
+          </div>
+          <div class="status-item">
+            <div class="status-icon" style="background-color: #007bff;"></div>
+            <span>하강 밸브</span>
+          </div>
+          <div class="status-item">
+            <div class="status-icon" style="background-color: #6f42c1;"></div>
+            <span>압력 스위치</span>
+          </div>
+          <div class="status-item">
+            <div class="status-icon" style="background-color: #20c997;"></div>
+            <span>유압유 부족</span>
+          </div>
+          <div class="status-item">
+            <div class="status-icon" style="background-color: #fd7e14;"></div>
+            <span>모터 과부하</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 중간 영상 스트리밍 패널 -->
+    <div class="center-panel">
+      <div class="video-container">
+        <div class="video-placeholder">
+          <img src="/video_feed" width="640" alt="Video Feed"
+            style="border: 1px solid white; display: block; margin: 0 auto;" />
+        </div>
+        <div class="video-overlay">
+          <div>실시간 스트리밍</div>
+          <div id="current-time"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 우측 제어 버튼 패널 -->
+    <div class="right-panel">
+      <div class="panel-title">제어 패널</div>
+
+      <!-- 운전 선택 -->
+      <div class="control-section">
+        <div class="control-title">운전 선택</div>
+        <div class="selection-control">
+          <div class="selection-pie" id="operation-selector">
+            <span>자동</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 상승/하강 버튼 -->
+      <div class="control-section">
+        <button class="big-button up" id="up-button">상승</button>
+        <button class="big-button down" id="down-button">하강</button>
+      </div>
+
+      <!-- 기타 제어 -->
+      <div class="control-section">
+        <div class="control-item">
+          <span class="control-label">펌프 전원</span>
+          <button class="control-button active" id="pump-power">ON</button>
+        </div>
+        <div class="control-item">
+          <span class="control-label">조명 제어</span>
+          <button class="control-button active" id="light-control">ON</button>
+        </div>
+        <div class="control-item">
+          <span class="control-label">알람 리셋</span>
+          <button class="control-button inactive" id="alarm-reset">RESET</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/static/js/socket.js"></script>
+</body>
+
+</html>
