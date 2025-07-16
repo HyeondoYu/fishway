@@ -2,7 +2,7 @@ from flask import Flask, render_template, Response
 from flask_socketio import SocketIO
 from camera import generate_frames
 from control import handle_command
-import Rpi.GPIO as GPIO
+import RPi.GPIO as GPIO
 
 app = Flask(__name__)
 
