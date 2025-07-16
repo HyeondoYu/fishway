@@ -17,16 +17,22 @@
 
       <!-- 수위상태 게이지 -->
       <div class="system-info">
-        <div class="info-section">
-          <div class="info-title">수위상태</div>
-          <div class="gauge-container">
-            <div class="gauge">
-              <div class="gauge-fill"></div>
-              <div class="gauge-needle" id="water-level-needle"></div>
+                <div class="info-section">
+                    <div class="info-title">수위상태</div>
+                    <div class="gauge-container">
+                        <div class="gauge">
+                            <div class="gauge-donut"></div>
+                            <div class="gauge-labels">
+                                <div class="gauge-label left">저 수위</div>
+                                <div class="gauge-label center-left">정상 수위</div>
+                                <div class="gauge-label center-right">고 수위</div>
+                                <div class="gauge-label right">홍수수위</div>
+                            </div>
+                            <div class="gauge-needle" id="water-level-needle"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
 
       <!-- 유압상태 -->
       <div class="system-info">
