@@ -35,10 +35,18 @@ document.getElementById('operation-selector').addEventListener('click', function
 // 제어 버튼 이벤트
 document.getElementById('up-button').addEventListener('click', function () {
 	alert('상승 명령이 전송되었습니다.');
+	fetch('/led/up/on')
+		.then(response => response.text())
+		.then(result => console.log(result));
+	setTimeout(()=> fetch('/led/up/off'), 2000);
 });
 
 document.getElementById('down-button').addEventListener('click', function () {
 	alert('하강 명령이 전송되었습니다.');
+	fetch('/led/down/on')
+		.then(response => response.text())
+		.then(result => console.log(result));
+	setTimeout(()=> fetch('/led/down/off'), 2000);
 });
 
 // 토글 버튼들
