@@ -59,35 +59,99 @@ body {
 }
 
 .gauge {
-  width: 150px;
-  height: 75px;
-  background-color: #e0e0e0;
-  border-radius: 150px 150px 0 0;
+  width: 200px;
+  height: 100px;
   position: relative;
   overflow: hidden;
 }
 
-.gauge-fill {
+.gauge-donut {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  position: relative;
+  background: conic-gradient(from 270deg,
+      #FF9800 0deg 45deg,
+      #4CAF50 45deg 90deg,
+      #FF5722 90deg 135deg,
+      #dc3545 135deg 180deg
+    );
+}
+
+.gauge-donut::before {
+  content: '';
   position: absolute;
-  bottom: 0;
-  left: 0;
+  top: 25px;
+  left: 25px;
+  width: 150px;
+  height: 150px;
+  background-color: #f8f9fa;
+  border-radius: 50%;
+}
+
+.gauge-labels {
+  position: absolute;
   width: 100%;
-  height: 50%;
-  background: linear-gradient(90deg, #4CAF50, #FFC107, #FF5722);
-  border-radius: 150px 150px 0 0;
-  transform-origin: center bottom;
-  transition: transform 0.3s ease;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.gauge-label {
+  position: absolute;
+  font-size: 12px;
+  font-weight: bold;
+  color: #333;
+  transform: translate(-50%, -50%);
+}
+
+.gauge-label.left {
+  left: 18px;
+  top: 47px;
+  rotate: -65deg;
+}
+
+.gauge-label.center-left {
+  left: 67px;
+  top: 10px;
+  rotate: -25deg;
+}
+
+.gauge-label.center-right {
+  left: 130px;
+  top: 27px;
+  rotate: 25deg;
+}
+
+.gauge-label.right {
+  font-size: 11px;
+  left: 160px;
+  top: 80px;
+  rotate: 65deg;
 }
 
 .gauge-needle {
   position: absolute;
   bottom: 0;
   left: 50%;
-  width: 2px;
-  height: 60px;
+  width: 3px;
+  height: 70px;
   background-color: #333;
   transform-origin: bottom center;
   transition: transform 0.3s ease;
+  z-index: 10;
+}
+
+.gauge-needle::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  background-color: #dc3545;
+  border-radius: 50%;
+  transform: translateX(-50%);
 }
 
 .status-item {
@@ -133,6 +197,14 @@ body {
   justify-content: center;
   color: #fff;
   font-size: 24px;
+}
+
+.video-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: none;
+  display: block;
 }
 
 .video-overlay {

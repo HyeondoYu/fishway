@@ -15,7 +15,8 @@ function updateTime() {
 // 수위 게이지 업데이트 (데모용)
 function updateWaterLevel() {
 	const needle = document.getElementById('water-level-needle');
-	const randomLevel = Math.random() * 180 - 90; // -90도에서 90도 사이
+	const levels = [-67.5, -22.5, 22.5, 67.5];
+	const randomLevel = levels[Math.floor(Math.random() * levels.length)];
 	needle.style.transform = `translateX(-50%) rotate(${randomLevel}deg)`;
 }
 
