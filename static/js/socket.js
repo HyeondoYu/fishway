@@ -33,34 +33,48 @@ document.getElementById('operation-selector').addEventListener('click', function
 });
 
 // 제어 버튼 이벤트
+// HTTP fetch를 사용해서 flask 서버로 전송하는 방법
+// document.getElementById('up-button').addEventListener('click', function () {
+// 	alert('상승 명령이 전송되었습니다.');
+// 	fetch('/control/up')
+// 		.then(response => response.text())
+// 		.then(result => console.log(result));
+// });
+
+// document.getElementById('down-button').addEventListener('click', function () {
+// 	alert('하강 명령이 전송되었습니다.');
+// 	fetch('/control/down')
+// 		.then(response => response.text())
+// 		.then(result => console.log(result));
+// });
+
+// document.getElementById('stop-button').addEventListener('click', function () {
+// 	alert('정지 명령이 전송되었습니다.');
+// 	fetch('/control/up')
+// 		.then(response => response.text())
+// 		.then(result => console.log(result));
+// });
+
+// MQTT over WebSocket을 사용해서 실시간으로 명령을 전송하는 방법
+const client = MediaQueryListEvent.connect('ws://192.168.0.69:9001');
+
+client.on('connect', () => {
+	console.log('MQTT connected!');
+});
+
 document.getElementById('up-button').addEventListener('click', function () {
 	alert('상승 명령이 전송되었습니다.');
-	fetch('/control/up')
-		.then(response => response.text())
-		.then(result => console.log(result));
+	client.publish('fishway/commands', 'up');
 });
 
 document.getElementById('down-button').addEventListener('click', function () {
 	alert('하강 명령이 전송되었습니다.');
-	fetch('/control/down')
-		.then(response => response.text())
-		.then(result => console.log(result));
+	client.publish('fishway/commands', 'down');
 });
 
-// 토글 버튼들
-const toggleButtons = ['pump-power', 'light-control', 'alarm-reset'];
-toggleButtons.forEach(id => {
-	document.getElementById(id).addEventListener('click', function () {
-		if (this.classList.contains('active')) {
-			this.classList.remove('active');
-			this.classList.add('inactive');
-			this.textContent = 'OFF';
-		} else {
-			this.classList.remove('inactive');
-			this.classList.add('active');
-			this.textContent = 'ON';
-		}
-	});
+document.getElementById('stop-button').addEventListener('click', function () {
+	alert('정지 명령이 전송되었습니다.');
+	client.publish('fishway/commands', 'stop');
 });
 
 // 초기화
