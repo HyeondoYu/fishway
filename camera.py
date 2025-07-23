@@ -1,24 +1,34 @@
-from picamera2 import Picamera2
 import cv2
 import time
 
-picam2 = Picamera2()
-picam2.configure(
-    picam2.create_preview_configuration(
-        main={"size": (1920, 1080), "format":"RGB888"},
-        controls = {"FrameDurationLimits": (50000,50000)},
-        buffer_count = 4
-    )
-)
-picam2.start()
-time.sleep(1)
+RTSP_URL = "rtsp://192.168.0.69:8554/unicast"
 
 def generate_frames():
-    while True:
-        frame = picam2.capture_array()
-        frame = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
-        _, jpeg = cv2.imencode('.jpg', frame)
-        frame_bytes = jpeg.tobytes()
+  cap = None
 
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n')
+  while True:
+    if cap is None or not cap.isOpened():
+      print("Opening RTSP stream...")
+      cap = cv2.VideoCapture(RTSP_URL)
+      time.sleep(2)  # Wait before retrying
+      if not cap.isOpened():
+        print("Error: Could not open RTSP stream.")
+        time.sleep(5)  # Wait before retrying
+        continue
+    print("RTSP stream opened successfully.")
+
+    success, frame = cap.read()
+    if not success or frame is None:
+      print("Failed to capture frame from RTSP stream. Reinitializing...")
+      cap.release()
+      cap = None
+      time.sleep(1)  # Wait before retrying
+      continue
+
+    ret, buffer = cv2.imencode('.jpg', frame)
+    if not ret:
+      continue
+
+    frame_bytes = buffer.tobytes()
+    yield (b'--frame\r\n'
+           b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n')
