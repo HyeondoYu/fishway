@@ -9,7 +9,7 @@ def index():
     return render_template('index.html')
 
 # MQTT for sending commands
-@app.route('control/<direction>', methods=['GET'])
+@app.route('/control/<direction>', methods=['GET'])
 def control(direction):
     if direction in ['up', 'down']:
         send_command(direction)
