@@ -6,8 +6,8 @@ import RPi.GPIO as GPIO
 
 app = Flask(__name__)
 
-LED_UP_PIN = 17
-LED_DOWN_PIN = 2
+LED_UP_PIN = 17 #11번
+LED_DOWN_PIN = 2 #3번
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(LED_UP_PIN, GPIO.OUT)
