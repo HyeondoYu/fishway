@@ -284,13 +284,18 @@ body {
 }
 
 .big-button.up {
-  background-color: #28a745;
+  background-color: #dc3545;
   color: white;
 }
 
 .big-button.down {
-  background-color: #dc3545;
+  background-color: #28a745;
   color: white;
+}
+
+.big-button.stop {
+  background-color: #ffc107;
+  color: white; 
 }
 
 .big-button:hover {

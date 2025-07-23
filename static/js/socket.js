@@ -47,21 +47,13 @@ document.getElementById('down-button').addEventListener('click', function () {
 		.then(result => console.log(result));
 });
 
-// 토글 버튼들
-const toggleButtons = ['pump-power', 'light-control', 'alarm-reset'];
-toggleButtons.forEach(id => {
-	document.getElementById(id).addEventListener('click', function () {
-		if (this.classList.contains('active')) {
-			this.classList.remove('active');
-			this.classList.add('inactive');
-			this.textContent = 'OFF';
-		} else {
-			this.classList.remove('inactive');
-			this.classList.add('active');
-			this.textContent = 'ON';
-		}
-	});
+document.getElementById('stop-button').addEventListener('click', function () {
+	alert('정지 명령이 전송되었습니다.');
+	fetch('/control/up')
+		.then(response => response.text())
+		.then(result => console.log(result));
 });
+
 
 // 초기화
 setInterval(updateTime, 1000);
