@@ -56,7 +56,7 @@ document.getElementById('operation-selector').addEventListener('click', function
 // });
 
 // MQTT over WebSocket을 사용해서 실시간으로 명령을 전송하는 방법
-const client = mqtt.connect('ws://192.168.0.69:1883');
+const client = mqtt.connect('ws://192.168.0.69:9001');
 
 client.on('connect', () => {
 	console.log('MQTT connected!');
