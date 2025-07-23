@@ -33,27 +33,49 @@ document.getElementById('operation-selector').addEventListener('click', function
 });
 
 // 제어 버튼 이벤트
+// HTTP fetch를 사용해서 flask 서버로 전송하는 방법
+// document.getElementById('up-button').addEventListener('click', function () {
+// 	alert('상승 명령이 전송되었습니다.');
+// 	fetch('/control/up')
+// 		.then(response => response.text())
+// 		.then(result => console.log(result));
+// });
+
+// document.getElementById('down-button').addEventListener('click', function () {
+// 	alert('하강 명령이 전송되었습니다.');
+// 	fetch('/control/down')
+// 		.then(response => response.text())
+// 		.then(result => console.log(result));
+// });
+
+// document.getElementById('stop-button').addEventListener('click', function () {
+// 	alert('정지 명령이 전송되었습니다.');
+// 	fetch('/control/up')
+// 		.then(response => response.text())
+// 		.then(result => console.log(result));
+// });
+
+// MQTT over WebSocket을 사용해서 실시간으로 명령을 전송하는 방법
+const client = MediaQueryListEvent.connect('ws://192.168.0.69:9001');
+
+client.on('connect', () => {
+	console.log('MQTT connected!');
+});
+
 document.getElementById('up-button').addEventListener('click', function () {
 	alert('상승 명령이 전송되었습니다.');
-	fetch('/control/up')
-		.then(response => response.text())
-		.then(result => console.log(result));
+	client.publish('fishway/commands', 'up');
 });
 
 document.getElementById('down-button').addEventListener('click', function () {
 	alert('하강 명령이 전송되었습니다.');
-	fetch('/control/down')
-		.then(response => response.text())
-		.then(result => console.log(result));
+	client.publish('fishway/commands', 'down');
 });
 
 document.getElementById('stop-button').addEventListener('click', function () {
 	alert('정지 명령이 전송되었습니다.');
-	fetch('/control/up')
-		.then(response => response.text())
-		.then(result => console.log(result));
+	client.publish('fishway/commands', 'stop');
 });
-
 
 // 초기화
 setInterval(updateTime, 1000);
