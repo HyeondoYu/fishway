@@ -15,7 +15,7 @@ def generate_frames():
         print("Error: Could not open RTSP stream.")
         time.sleep(5)  # Wait before retrying
         continue
-    print("RTSP stream opened successfully.")
+    #print("RTSP stream opened successfully.")
 
     success, frame = cap.read()
     if not success or frame is None:
