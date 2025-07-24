@@ -24,8 +24,8 @@ def generate_frames():
       cap = None
       time.sleep(1)  # Wait before retrying
       continue
-
-    ret, buffer = cv2.imencode('.jpg', frame)
+    rotated_frame = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
+    ret, buffer = cv2.imencode('.jpg', rotated_frame)
     if not ret:
       continue
 
