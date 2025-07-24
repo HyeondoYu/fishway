@@ -26,6 +26,9 @@ def on_message(client, userdata, msg):
     elif command == "down":
         GPIO.output(LED_DOWN_PIN, GPIO.HIGH)
         GPIO.output(LED_UP_PIN, GPIO.LOW)
+    elif command == "stop":
+        GPIO.output(LED_UP_PIN, GPIO.LOW)
+        GPIO.output(LED_DOWN_PIN, GPIO.LOW)
     else:
         print("Unknown command")
 
