@@ -60,6 +60,22 @@ const client = mqtt.connect('ws://192.168.0.69:9001');
 
 client.on('connect', () => {
 	console.log('MQTT connected!');
+	client.subscribe("fishway/status");
+});
+
+client.on('message', (topic, message) => {
+  try {
+    const data = JSON.parse(message.toString().replace(/'/g, '"'));
+    for (const key in data) {
+      const isActive = data[key] === 1;
+      const item = document.querySelector(`.status-item[data-key="${key}"] .status-icon`);
+      if (item) {
+        item.classList.toggle('active', isActive);
+      }
+    }
+  } catch (e) {
+    console.error("Failed to parse message:", e);
+  }
 });
 
 document.getElementById('up-button').addEventListener('click', function () {

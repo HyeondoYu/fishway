@@ -154,23 +154,29 @@ body {
   transform: translateX(-50%);
 }
 
-.status-item {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-  padding: 8px;
-  background-color: #fff;
-  border-radius: 4px;
-  border-left: 4px solid #007bff;
-}
-
 .status-icon {
   width: 20px;
   height: 20px;
-  margin-right: 10px;
-  background-color: #007bff;
   border-radius: 50%;
+  border: 2px solid currentColor;
+  background-color: white;
+  margin-right: 10px;
+  display: inline-block;
 }
+.status-icon.active {
+  background-color: currentColor;
+}
+.status-item {
+  color: #000;
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+}
+.status-item[data-key="상승 밸브"] { color: #FFC107; }
+.status-item[data-key="하강 밸브"] { color: #007bff; }
+.status-item[data-key="압력 스위치"] { color: #6f42c1; }
+.status-item[data-key="유압유 부족"] { color: #20c997; }
+.status-item[data-key="모터 과부하"] { color: #fd7e14; }
 
 /* 중간 영상 스트리밍 패널 */
 .center-panel {

@@ -2,7 +2,7 @@ import paho.mqtt.client as mqtt
 import RPi.GPIO as GPIO
 
 LED_UP_PIN = 17  # GPIO pin for LED up
-LED_DOWN_PIN = 2  # GPIO pin for LED down
+LED_DOWN_PIN = 2  # GPIO pin for LED down압	
 
 #GPIO setup
 GPIO.setmode(GPIO.BCM)
