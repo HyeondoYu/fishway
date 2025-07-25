@@ -1,5 +1,4 @@
 from flask import Flask, render_template, Response
-from control import send_command
 from camera import generate_frames
 
 app = Flask(__name__)
@@ -7,15 +6,6 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     return render_template('index.html')
-
-# MQTT for sending commands
-@app.route('/control/<direction>', methods=['GET'])
-def control(direction):
-    if direction in ['up', 'down']:
-        send_command(direction)
-        return {'status': 'success', 'message': f'Command {direction.upper()} sent via MQTT.'}
-    else:
-        return {'status': 'error', 'message': 'Invalid command.'}, 400
 
 # Route for video streaming
 @app.route('/video_feed')
