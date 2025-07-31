@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 # HLS 파일 저장 디렉토리
 HLS_DIR = '/tmp/hls'
-RTSP_URL = "rtsp://192.168.0.67:8554/unicast"
+RTSP_URL = "rtsp://192.168.0.69:8554/unicast"
 
 # FFmpeg 프로세스를 저장할 변수
 ffmpeg_process = None
@@ -24,20 +24,25 @@ def start_ffmpeg():
     
     create_hls_directory()
     
-    # FFmpeg 명령어 (회전 포함)
+    # FFmpeg 명령어 (부드러운 스트리밍을 위한 최적화)
     cmd = [
         'ffmpeg',
         '-i', RTSP_URL,
-        '-c:v', 'libx264',           # 비디오 코덱 (필요시 트랜스코딩)
+        '-c:v', 'libx264',           # 비디오 코덱
         '-c:a', 'aac',               # 오디오 코덱
-        '-preset', 'ultrafast',       # 빠른 인코딩
+        '-preset', 'veryfast',       # 빠른 인코딩 (ultrafast보다 품질 좋음)
         '-tune', 'zerolatency',      # 낮은 지연시간
-        '-vf', 'transpose=1',        # 90도 시계방향 회전 (OpenCV의 ROTATE_90_CLOCKWISE와 동일)
+        '-vf', 'transpose=1',        # 90도 시계방향 회전
+        '-g', '30',                  # GOP 크기 (키프레임 간격)
+        '-keyint_min', '30',         # 최소 키프레임 간격
+        '-sc_threshold', '0',        # 장면 변화 감지 비활성화
         '-f', 'hls',                 # HLS 포맷
-        '-hls_time', '2',            # 세그먼트 길이 (초)
-        '-hls_list_size', '3',       # 플레이리스트에 유지할 세그먼트 수
-        '-hls_flags', 'delete_segments', # 오래된 세그먼트 자동 삭제
+        '-hls_time', '1',            # 세그먼트 길이를 1초로 단축
+        '-hls_list_size', '5',       # 플레이리스트에 더 많은 세그먼트 유지
+        '-hls_flags', 'delete_segments+independent_segments', # 독립적인 세그먼트
         '-hls_allow_cache', '0',     # 캐시 비활성화
+        '-hls_segment_type', 'mpegts', # 세그먼트 타입
+        '-force_key_frames', 'expr:gte(t,n_forced*1)', # 1초마다 강제 키프레임
         f'{HLS_DIR}/stream.m3u8',
         '-y'                         # 덮어쓰기 허용
     ]
