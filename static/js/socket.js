@@ -9,19 +9,7 @@ function initializeHLS() {
             debug: false,
             enableWorker: true,
             lowLatencyMode: true,
-            backBufferLength: 30,
-            maxBufferLength: 60,
-            maxMaxBufferLength: 120,
-            maxBufferSize: 60 * 1000 * 1000,
-            maxBufferHole: 0.5,
-            highBufferWatchdogPeriod: 2,
-            nudgeOffset: 0.1,
-            nudgeMaxRetry: 3,
-            maxSeekHole: 2,
-            seekHoleNudgeDuration: 0.01,
-            maxFragLookUpTolerance: 0.25,
-            liveSyncDurationCount: 3,
-            liveMaxLatencyDurationCount: 10
+            backBufferLength: 90
         });
         
         hls.loadSource('/stream.m3u8');
