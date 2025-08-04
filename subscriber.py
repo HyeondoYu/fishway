@@ -1,15 +1,9 @@
 import paho.mqtt.client as mqtt
-import RPi.GPIO as GPIO
+import serial
+import time
 
-LED_UP_PIN = 17  # GPIO pin for LED up
-LED_DOWN_PIN = 2  # GPIO pin for LED down압	
-
-#GPIO setup
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(LED_UP_PIN, GPIO.OUT)
-GPIO.setup(LED_DOWN_PIN, GPIO.OUT)
-GPIO.output(LED_UP_PIN, GPIO.LOW)
-GPIO.output(LED_DOWN_PIN, GPIO.LOW)
+uart = serial.Serial('/dev/ttyAMA3', 9600, timeout=1)
+time.sleep(2)  # Wait for the serial connection to initialize
 
 # MQTT callbacks
 def on_connect(client, userdata, flags, rc):
@@ -21,20 +15,28 @@ def on_message(client, userdata, msg):
     print(f"Received command: {command}")
     
     if command == "up":
-        GPIO.output(LED_UP_PIN, GPIO.HIGH)
-        GPIO.output(LED_DOWN_PIN, GPIO.LOW)
+        uart.write(b'up\n')
+        print("Sent command to move up")
     elif command == "down":
-        GPIO.output(LED_DOWN_PIN, GPIO.HIGH)
-        GPIO.output(LED_UP_PIN, GPIO.LOW)
+        uart.write(b'down\n')
+        print("Sent command to move down")
     elif command == "stop":
-        GPIO.output(LED_UP_PIN, GPIO.LOW)
-        GPIO.output(LED_DOWN_PIN, GPIO.LOW)
+        uart.write(b'stop\n')
+        print("Sent command to stop")
     else:
         print("Unknown command")
+    
+    uart.flush()  # Ensure the command is sent immediately
 
 # MQTT setup
 client = mqtt.Client()
 client.on_connect = on_connect
 client.on_message = on_message
-client.connect("localhost", 1883, 60)
-client.loop_forever()
+
+try:
+    client.connect("localhost", 1883, 60)
+    client.loop_forever()
+except KeyboardInterrupt:
+    print("Exiting...")
+    uart.close()
+    client.disconnect()
