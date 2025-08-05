@@ -39,8 +39,6 @@ def serial_listener():
             line = uart.readline().decode('utf-8').strip()
             print(f"Received from serial: {line}")
             client.publish(MQTT_PUB_TOPIC, line)
-        else:
-            print("No data in UART buffer, waiting...")
 
 # MQTT setup
 client = mqtt.Client()
