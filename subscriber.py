@@ -3,6 +3,14 @@ import serial
 import time
 import threading
 
+pins = {
+    14: '상승 밸브',
+    15: '하강 밸브',
+    18: '압력 스위치',
+    23: '유압유 부족',
+    24: '모터 과부하'
+}
+
 uart = serial.Serial('/dev/ttyAMA3', 9600, timeout=1)
 time.sleep(2)  # Wait for the serial connection to initialize
 
@@ -34,11 +42,17 @@ def on_message(client, userdata, msg):
     uart.flush()  # Ensure the command is sent immediately
 
 def serial_listener():
+    status = {}
     while True:
         if uart.in_waiting > 0:
             line = uart.readline().decode('utf-8').strip()
-            print(f"Received from serial: {line}")
-            client.publish(MQTT_PUB_TOPIC, line)
+            line = int(line)
+            i = 4
+            for pin, name in pins.items():
+                status[name] = line >> i
+                i -= 1
+            break
+    client.publish(MQTT_PUB_TOPIC, str(status))
 
 # MQTT setup
 client = mqtt.Client()
