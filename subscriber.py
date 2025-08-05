@@ -42,17 +42,21 @@ def on_message(client, userdata, msg):
     uart.flush()  # Ensure the command is sent immediately
 
 def serial_listener():
-    status = {}
     while True:
         if uart.in_waiting > 0:
-            line = uart.readline().decode('utf-8').strip()
-            line = int(line)
-            i = 4
-            for pin, name in pins.items():
-                status[name] = line >> i
-                i -= 1
-            break
-    client.publish(MQTT_PUB_TOPIC, str(status))
+            raw_line = uart.readline().decode('utf-8').strip()
+            try:
+                line = int(raw_line)  # 5비트 값 (예: 21)
+                status = {}
+                for i, (pin, name) in enumerate(sorted(pins.items(), key=lambda x: x[0], reverse=True)):
+                    # MSB부터 LSB 순서로 비트를 추출
+                    bit = (line >> (4 - i)) & 1
+                    status[name] = bit
+                print("Parsed status:", status)
+                client.publish(MQTT_PUB_TOPIC, str(status))
+            except ValueError:
+                print(f"Invalid input from UART: {raw_line}")
+
 
 # MQTT setup
 client = mqtt.Client()
