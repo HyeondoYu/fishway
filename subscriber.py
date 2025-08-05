@@ -1,6 +1,7 @@
 import paho.mqtt.client as mqtt
 import serial
 import time
+import threading
 
 uart = serial.Serial('/dev/ttyAMA3', 9600, timeout=1)
 time.sleep(2)  # Wait for the serial connection to initialize
