@@ -66,7 +66,9 @@ client.on('connect', () => {
 client.on('message', (topic, message) => {
   try {
     const data = JSON.parse(message.toString().replace(/'/g, '"'));
+		console.log("Received data:", data);
     for (const key in data) {
+			console.log("Processing key:", key);
       const isActive = data[key] === 1;
       const item = document.querySelector(`.status-item[data-key="${key}"] .status-icon`);
       if (item) {

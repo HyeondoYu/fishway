@@ -1,4 +1,4 @@
-import RPi.GPIO as GPIO
+#import RPi.GPIO as GPIO
 import time
 import paho.mqtt.client as mqtt
 
@@ -13,18 +13,17 @@ pins = {
 
 # MQTT 설정
 client = mqtt.Client()
-client.connect("localhost", 1883, 60)
+client.connect("192.168.0.71", 1883, 60)
 
-# GPIO 설정
-GPIO.setmode(GPIO.BCM)
-for pin in pins:
-    GPIO.setup(pin, GPIO.IN)
+# # GPIO 설정
+# GPIO.setmode(GPIO.BCM)#
 
 def publish_status():
     status = {}
     for pin, name in pins.items():
-        state = GPIO.input(pin)
-        status[name] = state
+        #state = GPIO.input(pin)#
+        status[name] = 1
+    print(f"Publishing status: {status}")
     client.publish("fishway/status", str(status))
 
 try:
@@ -32,4 +31,4 @@ try:
         publish_status()
         time.sleep(0.5)
 except KeyboardInterrupt:
-    GPIO.cleanup()
+    exit(0)
