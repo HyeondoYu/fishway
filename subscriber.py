@@ -46,6 +46,8 @@ client = mqtt.Client()
 client.on_connect = on_connect
 client.on_message = on_message
 
+threading.Thread(target=serial_listener, daemon=True).start()
+
 try:
     client.connect(MQTT_BROKER, 1883, 60)
     client.loop_forever()
