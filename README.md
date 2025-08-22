@@ -89,6 +89,7 @@ Arduino ↔ Raspberry Pi 연결 시 전압 차이(Arduino 5V vs Pi 3.3V)를 고�
 ---
 
 ## 🌐 Web Interface
+![웹페이지 스크린샷](./images/screenshot.png)
 
 - **Flask (app.py)** 기반 웹 서버
 - `/templates/index.html` : UI 템플릿
